@@ -1,0 +1,51 @@
+program -> declaration-list                                                                         {}
+declaration-list -> declaration declaration-list`                                                   {}
+declaration-list` -> declaration declaration-list` | empty                                          {}
+declaration -> type-specifier ID declaration`                                                       {}
+declaration` -> var-declaration` | ( params ) compound-stmt                                         { ( or ; [ }
+var-declaration -> type-specifier ID var-declaration`                                               { }
+var-declaration` -> ; | [ NUM ] ;                                                                   { ; or [ }
+type-specifier -> int | void                                                                        { int void }
+params -> int ID param` param-list` | void params`                                                  { int or void }
+params` -> ID param` param-list` | empty                                                            { ID or empty }
+param-list` -> , type-specifier ID param` param-list` | empty                                       { , or empty }
+param` -> [ ] | empty                                                                               { [ or empty}
+compound-stmt -> { local-declarations statement-list }                                              { { }
+local-declarations -> var-declaration local-declarations | empty                                    { int or void}
+statement-list -> statement statement-list | empty                                                  { empty or }
+statement -> expression-stmt | compound-stmt | selection-stmt | iteration-stmt | return-stmt        { else | { | if | while | return }
+expression-stmt -> expression ; | ;                                                                 { same as expression }
+selection-stmt -> if ( expression ) statmement selection-stmt`                                      { if }
+selection-stmt` -> else statement | empty                                                           { else or empty }
+iteration-stmt -> while ( expression ) statement                                                    { while }
+return-stmt -> return return-stmt`                                                                  { return }
+return-stmt` -> ; | expression ;                                                                    { }
+
+expression -> ID  expression`
+| NUM term` additive-expression` simple-expression`
+| ( expression ) term` additive-expression` simple-expression`
+
+expression` -> = expression | [ expression ] expression``
+| term` additive-expression` simple-expression`
+| ( args ) term` additive-expression` simple-expression`
+
+expression`` -> = expression | term` additive-expression` simple-expression`
+
+var` -> [ expression ] | empty                                                                      { [ or empty ]}
+simple-expression` -> relop additive-expression | empty                                             { self explantory }
+relop -> <= | < | > | >= | == | !=                                                                  { self explanatory }
+additive-expression -> term additive-expression`                                                    { }
+additive-expression` -> addop term additive-expression` | empty                                     { + - or empty }
+addop -> + | -                                                                                      {+ - }
+term -> factor term`                                                                                {}
+term` -> mulop factor term` | empty                                                                 { * / or empty }
+mulop -> * | /                                                                                      { * / }
+factor -> ( expression ) | ID factor` | NUM                                                         { ( ID NUM }
+factor` -> [ expression ] | empty | ( args )                                                                        { [ ( }     { }
+args -> arg-list | empty                                                                            { ID [ or = | ( ID NUM }    { ) }
+arg-list -> expression arg-list`                                                                    { ID [ or = | ( ID NUM }
+arg-list` -> , expression arg-list` | empty
+
+
+Program, dec_list, dec, Dprime, params, paramsPrime,
+void     void       ID  (   )   void    void
